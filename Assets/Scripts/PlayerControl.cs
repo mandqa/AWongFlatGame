@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour
     {
 		if (!canMove)
 		{
-			Ratanimator.SetBool("ratwalking",false);
+			Ratanimator.SetBool("ratWalking",false);
 			return;
 		}
 
