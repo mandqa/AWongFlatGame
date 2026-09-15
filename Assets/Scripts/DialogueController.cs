@@ -50,7 +50,7 @@ public class DialogueController : MonoBehaviour
 
        if (!taxiStarted)
         {
-			if(distanceWalked >= 26f)
+			if(distanceWalked >= 30f)
 			{	
 			taxiStarted = true;
             dialogueText.text = "AH!";
@@ -81,49 +81,87 @@ public class DialogueController : MonoBehaviour
 	//pigeon
 		if (taxiFinished && !pigeonStarted)
 		{
-			if (distanceWalked >= 48f)
+			if (distanceWalked >= 54f)
 				{
 					pigeonStarted = true;
 					player.canMove = false;
 					dialogueText.text = "Oh, Hello!";
 					Invoke("PigeonDialogue2",2f);
 				}
-			else if (distanceWalked >= 35f)
+			else if (distanceWalked >= 40f)
 				{
 					dialogueText.text = "I really need to stop being scared of things so easily.";
 				}
-			else if(distanceWalked >= 30f) 
+			else if(distanceWalked >= 35f) 
 				{
 					dialogueText.text = "Well...then..";
 				}
 		}
 			if(pigeonFinished && !cockroachStarted)
 			{
-				if (distanceWalked >= 65f)
+				if (distanceWalked >= 80f)
 					{
 						cockroachStarted = true;
 						player.canMove = false;
 						dialogueText.text = "AHHH! WHAT WAS THAT?!";
 						cockroach.SetActive(true);
 						cockroachAnimation.Play("roachfly");
-						Invoke("CockroachDialogue2",2f);
+						Invoke("CockroachDialogue2",3f);
 					}
-				else if(distanceWalked >= 55f)
+				else if(distanceWalked >= 65f)
 					{
 						dialogueText.text = " ";
 					}
-				else if (distanceWalked >= 50f)
+				else if (distanceWalked >= 60f)
 					{
 						dialogueText.text = "...Rude";	
 					}
 			}
 			if(cockroachFinished)
 			{
-			if (distanceWalked >=70f)
+			if (distanceWalked >= 155f)
+				{	
+					player.canMove = false;
+					dialogueText.text = "It's still warm";
+					
+				}
+			else if (distanceWalked >= 150f)
 				{
 					dialogueText.text = "";
 				}
+			else if (distanceWalked >= 145f)
+				{
+					dialogueText.text = "Oh my god.";
+				}
+			else if (distanceWalked >= 130f)
+				{
+					dialogueText.text = "Is that what I think it is..";
+				}
+			else if (distanceWalked >= 122f)
+				{
+				dialogueText.text = "*sniffs*";
+				}
+			else if (distanceWalked >= 115f)
+				{
+					dialogueText.text = "Wait a minute...";
+				}
+			else if(distanceWalked >= 105f)
+				{
+					dialogueText.text = "";
+				}
+			else if (distanceWalked >= 100f)
+				{
+					dialogueText.text = "I'm just gonna go";
+				}
+			else if (distanceWalked >=90f)
+				{
+					dialogueText.text = "You know what?";
+				}
 			}
+			else if (distanceWalked >= 85f)
+				{
+					dialogueText.text = "";
+				}
 		}
 		
 
@@ -132,7 +170,7 @@ public class DialogueController : MonoBehaviour
 		{
 			taxi.SetActive(false);
 			dialogueText.text = "..Taxi";
-			Invoke("PlayerMove", 3f);
+			Invoke("PlayerMove", 6f);
 		}
 
 		void PlayerMove()
@@ -144,23 +182,23 @@ public class DialogueController : MonoBehaviour
 		//pigeon functions
 		void PigeonDialogue2(){
 			dialogueText.text = "*pigeon stares*";
-			Invoke("PigeonDialogue3", 2f);
+			Invoke("PigeonDialogue3", 5f);
 		}
 
 		void PigeonDialogue3(){
 			dialogueText.text = "...";
-			Invoke("PigeonDialogue4", 2f);
+			Invoke("PigeonDialogue4", 4f);
 		}
 
 		void PigeonDialogue4(){
 			dialogueText.text = "Are you gonna move?";
-			Invoke("PigeonFlyAway", 2f);
+			Invoke("PigeonFlyAway", 6f);
 		}
 		
 		void PigeonFlyAway(){
 			dialogueText.text = "";
 			pigeonAnimation.Play("pigeonfly");
-			Invoke("PigeonFinish",3f);
+			Invoke("PigeonFinish",6f);
 		}
 		
 		void PigeonFinish(){
@@ -177,29 +215,29 @@ public class DialogueController : MonoBehaviour
 		//cockroach functions
 		void CockroachDialogue2(){
 		dialogueText.text = "*looks around*";
-		Invoke("CockroachDialogue3", 2f);
+		Invoke("CockroachDialogue3", 6f);
 		}
 		
 		void CockroachDialogue3(){
-		dialogueText.text = "Did I just witness a cockaroach.";
-		Invoke("CockroachDialogue4", 2f);
+		dialogueText.text = "Did I just witness a cockroach.";
+		Invoke("CockroachDialogue4", 7f);
 		}
 	
 		void CockroachDialogue4(){
 		dialogueText.text = " ";
-		Invoke("CockroachDialogue5", 2f);
+		Invoke("CockroachDialogue5", 3f);
 		}
 
 		void CockroachDialogue5(){
-		dialogueText.text = "WHY WAS IT FLYING?!";
-		Invoke("CockroachFinish", 2f);
+		dialogueText.text = "AND WHY WAS IT FLYING?!";
+		Invoke("CockroachFinish", 6f);
 		}
 		
 		void CockroachFinish(){
 		cockroach.SetActive(false);
 		cockroachFinished = true;
 		dialogueText.text = "I cant do this no more.";
-		Invoke("PlayerMoveRoach", 2f);
+		Invoke("PlayerMoveRoach", 5f);
 		}
 		
 		void PlayerMoveRoach () {
