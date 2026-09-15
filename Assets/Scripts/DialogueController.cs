@@ -121,7 +121,6 @@ public class DialogueController : MonoBehaviour
 			{
 			if (distanceWalked >= 155f)
 				{	
-					player.canMove = false;
 					dialogueText.text = "It's still warm";
 					
 				}
