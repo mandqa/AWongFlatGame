@@ -7,17 +7,39 @@ public class DialogueController : MonoBehaviour
 
     public Transform rat;
 	public GameObject taxi;
-	private PlayerControl  player;
+	public GameObject pigeon;
+	public GameObject cockroach;
+
+	private PlayerControl player;
     private float startingX;
+	
+	private Animator taxiAnimation;
+	private Animator pigeonAnimation;
+	private Animator cockroachAnimation;
+
 	private bool taxiStarted = false;
 	private bool taxiFinished = false;
-	private Animator taxiAnimation;
+
+	private bool pigeonStarted = false;
+	private bool pigeonFinished = false;
+	
+	private bool cockroachStarted = false;
+	private bool cockroachFinished = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         startingX = rat.position.x;
 		player = rat.GetComponent<PlayerControl>();
+
 		taxiAnimation = taxi.GetComponent<Animator>();
+		pigeonAnimation = pigeon.GetComponent<Animator>();
+		cockroachAnimation = cockroach.GetComponent<Animator>();
+		//taxi starts hidden
+		taxi.SetActive(false);
+		//piegon already visible
+		pigeon.SetActive(true);
+		//cockroach will be hidden
+		cockroach.SetActive(false);
         dialogueText.text = "Ahh..New York City at night.";
     }
 
@@ -55,19 +77,57 @@ public class DialogueController : MonoBehaviour
        
   
 	}
-
-		if (taxiFinished){
 	
-			if (distanceWalked >= 35f)
+	//pigeon
+		if (taxiFinished && !pigeonStarted)
+		{
+			if (distanceWalked >= 48f)
+				{
+					pigeonStarted = true;
+					player.canMove = false;
+					dialogueText.text = "Oh, Hello!";
+					Invoke("PigeonDialogue2",2f);
+				}
+			else if (distanceWalked >= 35f)
 				{
 					dialogueText.text = "I really need to stop being scared of things so easily.";
 				}
 			else if(distanceWalked >= 30f) 
 				{
-					dialogueText.text = "Well.then..";
+					dialogueText.text = "Well...then..";
 				}
-	}
-}
+		}
+			if(pigeonFinished && !cockroachStarted)
+			{
+				if (distanceWalked >= 65f)
+					{
+						cockroachStarted = true;
+						player.canMove = false;
+						dialogueText.text = "AHHH! WHAT WAS THAT?!";
+						cockroach.SetActive(true);
+						cockroachAnimation.Play("roachfly");
+						Invoke("CockroachDialogue2",2f);
+					}
+				else if(distanceWalked >= 55f)
+					{
+						dialogueText.text = " ";
+					}
+				else if (distanceWalked >= 50f)
+					{
+						dialogueText.text = "...Rude";	
+					}
+			}
+			if(cockroachFinished)
+			{
+			if (distanceWalked >=70f)
+				{
+					dialogueText.text = "";
+				}
+			}
+		}
+		
+
+		//taxi functions
 		void FinishTaxiEvent()
 		{
 			taxi.SetActive(false);
@@ -79,5 +139,70 @@ public class DialogueController : MonoBehaviour
 		{
 			player.canMove = true;
 			taxiFinished = true;
+		}
+
+		//pigeon functions
+		void PigeonDialogue2(){
+			dialogueText.text = "*pigeon stares*";
+			Invoke("PigeonDialogue3", 2f);
+		}
+
+		void PigeonDialogue3(){
+			dialogueText.text = "...";
+			Invoke("PigeonDialogue4", 2f);
+		}
+
+		void PigeonDialogue4(){
+			dialogueText.text = "Are you gonna move?";
+			Invoke("PigeonFlyAway", 2f);
+		}
+		
+		void PigeonFlyAway(){
+			dialogueText.text = "";
+			pigeonAnimation.Play("pigeonfly");
+			Invoke("PigeonFinish",3f);
+		}
+		
+		void PigeonFinish(){
+			pigeon.SetActive(false);
+			pigeonFinished = true;
+			dialogueText.text = "...Rude";
+			Invoke("PlayerMovePigeon", 3f);
+		}
+
+		void PlayerMovePigeon(){
+		player.canMove = true;
+		}
+		
+		//cockroach functions
+		void CockroachDialogue2(){
+		dialogueText.text = "*looks around*";
+		Invoke("CockroachDialogue3", 2f);
+		}
+		
+		void CockroachDialogue3(){
+		dialogueText.text = "Did I just witness a cockaroach.";
+		Invoke("CockroachDialogue4", 2f);
+		}
+	
+		void CockroachDialogue4(){
+		dialogueText.text = " ";
+		Invoke("CockroachDialogue5", 2f);
+		}
+
+		void CockroachDialogue5(){
+		dialogueText.text = "WHY WAS IT FLYING?!";
+		Invoke("CockroachFinish", 2f);
+		}
+		
+		void CockroachFinish(){
+		cockroach.SetActive(false);
+		cockroachFinished = true;
+		dialogueText.text = "I cant do this no more.";
+		Invoke("PlayerMoveRoach", 2f);
+		}
+		
+		void PlayerMoveRoach () {
+		player.canMove = true;	
 		}
 }
