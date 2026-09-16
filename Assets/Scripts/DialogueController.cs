@@ -8,8 +8,11 @@ public class DialogueController : MonoBehaviour
 	public AudioClip squeak1;
 	public AudioClip squeak2;
 	public AudioClip taxihonk;
+	public AudioClip pigeonfly;
+	public AudioClip roachfly;
     
 	public AudioSource audioSource;
+	public AudioSource pigeonAudio;
 
     public Transform rat;
 	public GameObject taxi;
@@ -103,6 +106,8 @@ public class DialogueController : MonoBehaviour
 					pigeonStarted = true;
 					player.canMove = false;
 					dialogueText.text = "Oh, Hello!";
+	
+					pigeonAudio.Play();
 					Invoke("PigeonDialogue2",2f);
 				}
 			else if (distanceWalked >= 40f)
@@ -125,6 +130,7 @@ public class DialogueController : MonoBehaviour
 						PlaySqueak2();
 						cockroach.SetActive(true);
 						cockroachAnimation.Play("roachfly");
+						Invoke("PlayRFly", 2f);
 						Invoke("CockroachDialogue2",3f);
 					}
 				else if(distanceWalked >= 65f)
@@ -270,7 +276,9 @@ public class DialogueController : MonoBehaviour
 		
 		void PigeonFlyAway(){
 			dialogueText.text = "";
+			pigeonAudio.Stop();
 			pigeonAnimation.Play("pigeonfly");
+			Invoke("PlayPFly", 1f);
 			Invoke("PigeonFinish",6f);
 		}
 		
@@ -344,5 +352,15 @@ public class DialogueController : MonoBehaviour
 		void PlayHonk()
 		{
 			audioSource.PlayOneShot(taxihonk);
+		}
+		
+		void PlayPFly()
+		{
+			audioSource.PlayOneShot(pigeonfly);
+		}
+		
+		void PlayRFly()
+		{
+			audioSource.PlayOneShot(roachfly);	
 		}
 }
