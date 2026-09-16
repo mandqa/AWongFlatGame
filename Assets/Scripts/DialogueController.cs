@@ -20,7 +20,7 @@ public class DialogueController : MonoBehaviour
 	public GameObject pigeon;
 	public GameObject cockroach;
 	public GameObject pizza;
-
+	
 	private PlayerControl player;
     private float startingX;
 	
@@ -131,7 +131,7 @@ public class DialogueController : MonoBehaviour
 						PlaySqueak2();
 						cockroach.SetActive(true);
 						cockroachAnimation.Play("roachfly");
-						Invoke("PlayRFly", 2f);
+						Invoke("PlayRFly", 1f);
 						Invoke("CockroachDialogue2",3f);
 					}
 				else if(distanceWalked >= 65f)
