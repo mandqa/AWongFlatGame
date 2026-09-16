@@ -47,11 +47,17 @@ TagManager:
   - name: lights
     uniqueID: 776782579
     locked: 0
+  - name: sewerplace
+    uniqueID: 255375085
+    locked: 0
   - name: player
     uniqueID: 1891304307
     locked: 0
   - name: objects
     uniqueID: 3205039691
+    locked: 0
+  - name: fadescreen
+    uniqueID: 2004343829
     locked: 0
   - name: texbox
     uniqueID: 23875235

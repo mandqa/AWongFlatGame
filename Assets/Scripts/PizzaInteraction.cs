@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PizzaInteraction : MonoBehaviour
 {
+    public DialogueController dialogueController;
     private Animator pizzaAnimator;
     private bool playerNearby = false;
+    private bool readyEat = false;
     private bool pizzaeat = false;
     //public GameObject pizza;
     public PlayerControl player;
@@ -16,13 +18,25 @@ public class PizzaInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerNearby && !pizzaeat && Input.GetKeyDown(KeyCode.E))
+        if (playerNearby && readyEat && !pizzaeat && Input.GetKeyDown(KeyCode.E))
         {
             pizzaeat = true;
-            player.canMove = false;
             pizzaAnimator.Play("pizzaeat");
+            //dialogueController.PizzaStarted();
             Invoke("FinishPizza", 3f);
         }
+    }
+
+    public void StartPizza()
+    {
+        readyEat = true;
+    }
+    
+    void FinishPizza()
+    {
+        dialogueController.PizzaFinished();
+        //removes pizza after player eats
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -39,12 +53,5 @@ public class PizzaInteraction : MonoBehaviour
         {
             playerNearby = false;
         }
-    }
-
-    void FinishPizza()
-    {
-        player.canMove = true;
-        //removes pizza after player eats
-        Destroy(gameObject);
     }
 }

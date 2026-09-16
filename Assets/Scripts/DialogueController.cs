@@ -5,10 +5,17 @@ public class DialogueController : MonoBehaviour
 {
     public TMP_Text dialogueText;
 
+	public AudioClip squeak1;
+	public AudioClip squeak2;
+	public AudioClip taxihonk;
+    
+	public AudioSource audioSource;
+
     public Transform rat;
 	public GameObject taxi;
 	public GameObject pigeon;
 	public GameObject cockroach;
+	public GameObject pizza;
 
 	private PlayerControl player;
     private float startingX;
@@ -16,6 +23,11 @@ public class DialogueController : MonoBehaviour
 	private Animator taxiAnimation;
 	private Animator pigeonAnimation;
 	private Animator cockroachAnimation;
+
+	private PizzaInteraction pizzaInteraction;
+
+	private bool pizzaStarted = false;
+	private bool pizzaFinished = false;
 
 	private bool taxiStarted = false;
 	private bool taxiFinished = false;
@@ -34,6 +46,9 @@ public class DialogueController : MonoBehaviour
 		taxiAnimation = taxi.GetComponent<Animator>();
 		pigeonAnimation = pigeon.GetComponent<Animator>();
 		cockroachAnimation = cockroach.GetComponent<Animator>();
+
+		pizzaInteraction = pizza.GetComponent<PizzaInteraction>();
+
 		//taxi starts hidden
 		taxi.SetActive(false);
 		//piegon already visible
@@ -54,9 +69,11 @@ public class DialogueController : MonoBehaviour
 			{	
 			taxiStarted = true;
             dialogueText.text = "AH!";
+			PlaySqueak1();
 			taxi.SetActive(true);
 			player.canMove = false;
 			taxiAnimation.Play("taxidrive");
+			Invoke("PlayHonk",1.5f);
 			Invoke("FinishTaxiEvent",3f);
 			}
 
@@ -97,6 +114,7 @@ public class DialogueController : MonoBehaviour
 					dialogueText.text = "Well...then..";
 				}
 		}
+		//cockroach
 			if(pigeonFinished && !cockroachStarted)
 			{
 				if (distanceWalked >= 80f)
@@ -104,6 +122,7 @@ public class DialogueController : MonoBehaviour
 						cockroachStarted = true;
 						player.canMove = false;
 						dialogueText.text = "AHHH! WHAT WAS THAT?!";
+						PlaySqueak2();
 						cockroach.SetActive(true);
 						cockroachAnimation.Play("roachfly");
 						Invoke("CockroachDialogue2",3f);
@@ -117,12 +136,15 @@ public class DialogueController : MonoBehaviour
 						dialogueText.text = "...Rude";	
 					}
 			}
-			if(cockroachFinished)
+		//pizza
+			if(cockroachFinished && !pizzaStarted)
 			{
 			if (distanceWalked >= 155f)
 				{	
+					pizzaStarted = true;
+					player.canMove = false;
 					dialogueText.text = "It's still warm";
-					
+					Invoke("PizzaReady", 2f);
 				}
 			else if (distanceWalked >= 150f)
 				{
@@ -156,13 +178,65 @@ public class DialogueController : MonoBehaviour
 				{
 					dialogueText.text = "You know what?";
 				}
-			}
 			else if (distanceWalked >= 85f)
 				{
 					dialogueText.text = "";
 				}
+			}
+
+			if(pizzaFinished)
+			{
+			if (distanceWalked >= 245f)
+				{
+					dialogueText.text = "..I think I love being home.";
+					player.canMove = false;
+				}
+			else if (distanceWalked >= 235f)
+				{
+					dialogueText.text = "In the vast city of New York.."; 
+				}
+			else if (distanceWalked >= 225f)
+				{
+					dialogueText.text = "I must say theres nowhere quite like home.";
+				}
+			else if (distanceWalked >= 220f)
+				{
+					dialogueText.text = "But.. after a long night";
+				}	
+			else if (distanceWalked >= 212f)
+				{
+					dialogueText.text = "";
+				}
+			else if (distanceWalked >= 205f)
+				{
+					dialogueText.text = "yeah..especially those.";
+				}
+			else if (distanceWalked >= 200f)
+				{
+					dialogueText.text = "";
+				}
+			else if (distanceWalked >=190f)
+				{
+					dialogueText.text = "and sometimes there is a big flying cockroach, thinking its normal.";
+				}
+			else if (distanceWalked >=185f)
+				{
+					dialogueText.text = "..scary..";
+				}
+			else if (distanceWalked >=180f)
+				{
+					dialogueText.text = "its loud..";
+				}
+			else if (distanceWalked >=170f)
+				{
+					dialogueText.text = "I must say, New York gets so strange at night";
+				}
+			else if (distanceWalked >= 160f)
+				{
+					dialogueText.text = "nevermind, that made it the best night ever";
+				}
+			}
 		}
-		
 
 		//taxi functions
 		void FinishTaxiEvent()
@@ -241,5 +315,34 @@ public class DialogueController : MonoBehaviour
 		
 		void PlayerMoveRoach () {
 		player.canMove = true;	
+		}
+		
+		//pizza funcions
+		void PizzaReady()
+		{
+			dialogueText.text = "Press E to eat.";
+			pizzaInteraction.StartPizza();
+		}
+		
+		public void PizzaFinished()
+		{
+			pizzaFinished = true;
+			dialogueText.text = "mmm...pizza";
+			player.canMove = true;	
+		}
+
+		void PlaySqueak1()
+        {
+            audioSource.PlayOneShot(squeak1);
+        }
+		
+		void PlaySqueak2()
+        {
+            audioSource.PlayOneShot(squeak2);
+        }
+
+		void PlayHonk()
+		{
+			audioSource.PlayOneShot(taxihonk);
 		}
 }
