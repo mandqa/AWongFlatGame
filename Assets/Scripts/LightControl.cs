@@ -3,10 +3,17 @@ using UnityEngine;
 public class LightControl : MonoBehaviour
 {
     private Animator lightAnimator;
+
+    private AudioSource audioSource;
+
+    public AudioClip lightOn;
+
+    public AudioClip lightOff;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lightAnimator = GetComponentInChildren<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,6 +27,7 @@ public class LightControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lightAnimator.SetBool("ratNear", true);
+            audioSource.PlayOneShot(lightOn);
         }
     }
 
@@ -28,6 +36,7 @@ public class LightControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             lightAnimator.SetBool("ratNear", false);
+            audioSource.PlayOneShot(lightOff);
         }
     }
 }

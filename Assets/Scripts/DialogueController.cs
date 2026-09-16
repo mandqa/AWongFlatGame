@@ -10,6 +10,7 @@ public class DialogueController : MonoBehaviour
 	public AudioClip taxihonk;
 	public AudioClip pigeonfly;
 	public AudioClip roachfly;
+	public AudioClip eating;
     
 	public AudioSource audioSource;
 	public AudioSource pigeonAudio;
@@ -330,6 +331,7 @@ public class DialogueController : MonoBehaviour
 		{
 			dialogueText.text = "Press E to eat.";
 			pizzaInteraction.StartPizza();
+			PlayEating();
 		}
 		
 		public void PizzaFinished()
@@ -362,5 +364,10 @@ public class DialogueController : MonoBehaviour
 		void PlayRFly()
 		{
 			audioSource.PlayOneShot(roachfly);	
+		}
+		
+		void PlayEating()
+		{
+			audioSource.PlayOneShot(eating);	
 		}
 }
